@@ -561,9 +561,9 @@ sleep(void *chan, struct spinlock *lk)
   acquire(&p->lock);  //DOC: sleeplock1
   release(lk);
 
-  // Go to sleep.
+  // Go to sleep. NOTE TO SELF: go to sleep little baby, googoogaga time for youuuu
   p->chan = chan;
-  p->state = SLEEPING;
+  p->state = SLEEPING; // NOTE TO SELF: by sleeping, we avoid busy wait (scheduler simply never schedules this process). it is thus more useful if we run more cycles. HOWEVER: there is a cost incurred in updating process states. this is negligible if you do many iterations but is substantial otherwise
 
   sched();
 

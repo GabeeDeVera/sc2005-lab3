@@ -3,7 +3,8 @@
 
 #define UBUF_SIZE 16
 
-// buffer writes to head and read from tail 
+// INCORRECT: buffer writes to head and read from tail 
+// CORRECT: buffer writes to tail and reads from head
 struct ubuf {
     char data[UBUF_SIZE];
     int head;  

@@ -20,7 +20,7 @@ initlock(struct spinlock *lk, char *name)
 // Loops (spins) until the lock is acquired.
 void
 acquire(struct spinlock *lk)
-{
+{ // Note to self: 
   push_off(); // disable interrupts to avoid deadlock.
   if(holding(lk))
     panic("acquire");
@@ -35,7 +35,7 @@ acquire(struct spinlock *lk)
   // Tell the C compiler and the processor to not move loads or stores
   // past this point, to ensure that the critical section's memory
   // references happen strictly after the lock is acquired.
-  // On RISC-V, this emits a fence instruction.
+  // On RISC-V, this emits a fence instruction. Note to self: might be related to the pipelining of CPUs
   __sync_synchronize();
 
   // Record info about lock acquisition for holding() and debugging.
@@ -62,7 +62,7 @@ release(struct spinlock *lk)
   // Release the lock, equivalent to lk->locked = 0.
   // This code doesn't use a C assignment, since the C standard
   // implies that an assignment might be implemented with
-  // multiple store instructions.
+  // multiple store instructions. NOTE TO SELF: wth crazy new information :O
   // On RISC-V, sync_lock_release turns into an atomic swap:
   //   s1 = &lk->locked
   //   amoswap.w zero, zero, (s1)
